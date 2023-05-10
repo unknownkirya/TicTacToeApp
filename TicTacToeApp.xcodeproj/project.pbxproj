@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E5211E72A0A58620009EE1B /* TicTacToeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5211E62A0A58620009EE1B /* TicTacToeModel.swift */; };
 		8E75FC842A0593490072F004 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E75FC832A0593490072F004 /* AppDelegate.swift */; };
 		8E75FC862A0593490072F004 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E75FC852A0593490072F004 /* SceneDelegate.swift */; };
 		8E75FC882A0593490072F004 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E75FC872A0593490072F004 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E5211E62A0A58620009EE1B /* TicTacToeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeModel.swift; sourceTree = "<group>"; };
 		8E75FC802A0593490072F004 /* TicTacToeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E75FC832A0593490072F004 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E75FC852A0593490072F004 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +39,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E5211E42A0A4DB80009EE1B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8E75FC8E2A05934B0072F004 /* LaunchScreen.storyboard */,
+				8E75FC892A0593490072F004 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8E5211E52A0A4DCD0009EE1B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8E75FC872A0593490072F004 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		8E5211E82A0A5E2C0009EE1B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8E5211E62A0A58620009EE1B /* TicTacToeModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		8E75FC772A0593490072F004 = {
 			isa = PBXGroup;
 			children = (
@@ -58,10 +85,10 @@
 			children = (
 				8E75FC832A0593490072F004 /* AppDelegate.swift */,
 				8E75FC852A0593490072F004 /* SceneDelegate.swift */,
-				8E75FC872A0593490072F004 /* ViewController.swift */,
-				8E75FC892A0593490072F004 /* Main.storyboard */,
+				8E5211E82A0A5E2C0009EE1B /* Model */,
+				8E5211E42A0A4DB80009EE1B /* View */,
+				8E5211E52A0A4DCD0009EE1B /* Controller */,
 				8E75FC8C2A05934B0072F004 /* Assets.xcassets */,
-				8E75FC8E2A05934B0072F004 /* LaunchScreen.storyboard */,
 				8E75FC912A05934B0072F004 /* Info.plist */,
 			);
 			path = TicTacToeApp;
@@ -138,6 +165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E5211E72A0A58620009EE1B /* TicTacToeModel.swift in Sources */,
 				8E75FC882A0593490072F004 /* ViewController.swift in Sources */,
 				8E75FC842A0593490072F004 /* AppDelegate.swift in Sources */,
 				8E75FC862A0593490072F004 /* SceneDelegate.swift in Sources */,
@@ -295,6 +323,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -306,7 +335,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -323,6 +352,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -334,7 +364,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
