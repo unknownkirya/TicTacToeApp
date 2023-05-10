@@ -9,13 +9,20 @@ import Foundation
 
 // MARK: Структура с properties нашей игры
 struct TicTacToe {
+    
     // Энум выбора
     enum Turn {
-        case Cross
-        case Null
+        case cross
+        case null
     }
-    
-    let textCross = "X" // текст крестика
-    let textNull = "O" // текст нолика
-    var nextTurn = Turn.Cross // следующий (текущий) ход, который будет сделан
+    var nextTurn = Turn.cross // следующий (текущий) ход, который будет сделан
+}
+
+extension TicTacToe {
+    enum Constants {
+        enum Text {
+            static let cross = "X"
+            static let null = "O"
+        }
+    }
 }
