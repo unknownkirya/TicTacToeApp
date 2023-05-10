@@ -179,6 +179,7 @@ class ViewController: UIViewController {
     
 }
 
+// Расширение класса с константой
 extension ViewController {
     enum Constants {
         enum Font {
