@@ -11,19 +11,17 @@ class ViewController: UIViewController {
 
     // MARK: Properties
     
-    // Энум выбора
-    enum Turn {
-        case Cross
-        case Null
-    }
     
-    var nextTurn = Turn.Cross // следующий (текущий) ход, который будет сделан
-    let textCross = "X" // крестик
-    let textNull = "O" // нолик
-    var arrButtons = [UIButton]() // массив кнопок
+    var ticTacToe = TicTacToe() // экземпляр модели с данными нашей игры
+    var arrButtons = [UIButton]() // массив кнопок для перебора
+    var scoreCrosses = 0 // счет побед за 'Крестики'
+    var scoreNulls = 0 // счет побед за 'Нолики'
     
     // MARK: Outlets
     @IBOutlet weak var turnLabel: UILabel! // лейбл отображающий текущий ход
+    // Кнопка промежуточных результатов игры
+    @IBOutlet weak var resultsButton: UIButton!
+    // Кнопки-поля для игры
     @IBOutlet weak var a11: UIButton!
     @IBOutlet weak var a12: UIButton!
     @IBOutlet weak var a13: UIButton!
@@ -37,11 +35,12 @@ class ViewController: UIViewController {
     // MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        resultsButton.layer.cornerRadius = 15
         
         initButtonsArr()
     }
     
-    // Добавляем кнопки(поля) в массив arrButtons, чтобы исползовать в других функциях
+    // Добавляем кнопки в массив arrButtons, чтобы перебирать в других функциях
     func initButtonsArr() {
         arrButtons.append(a11)
         arrButtons.append(a12)
@@ -60,36 +59,46 @@ class ViewController: UIViewController {
     @IBAction func buttonTapAction(_ sender: UIButton) {
         fillTheCage(sender)
         
-        if (allButtonsAreUsed()) {
-            resultAlert(title: "Draw")
+        if checkVictory(TicTacToe.Constants.Text.cross) {
+            scoreCrosses += 1
+            presentResultAlert(title: "Победил игрок играющий за Крестики!")
+        } else if checkVictory(TicTacToe.Constants.Text.null) {
+            scoreNulls += 1
+            presentResultAlert(title: "Победил игрок играющий за Нолики!")
+        } else if areAllButtonsUsed() {
+            presentResultAlert(title: "Ничья! Сыграйте еще раз, чтобы выявить победителя :)")
         }
     }
     
-    // Функция проверки победы
+    @IBAction func resultButtonTapAction(_ sender: Any) {
+        getInterimResultsAlert()
+    }
+    
+    // Функция проверки победы одного из пользователей
     func checkVictory(_ s: String) -> Bool {
         
         // "Горизонтальная" победа
-        if returnSymbol(a11, s) && returnSymbol(a12, s) && returnSymbol(a13, s) {
+        if checkSymbol(a11, s) && checkSymbol(a12, s) && checkSymbol(a13, s) {
             return true
-        } else if returnSymbol(a21, s) && returnSymbol(a22, s) && returnSymbol(a23, s) {
+        } else if checkSymbol(a21, s) && checkSymbol(a22, s) && checkSymbol(a23, s) {
             return true
-        } else if returnSymbol(a31, s) && returnSymbol(a32, s) && returnSymbol(a33, s) {
+        } else if checkSymbol(a31, s) && checkSymbol(a32, s) && checkSymbol(a33, s) {
             return true
         }
         
         // "Вертикальная" победа
-        if returnSymbol(a11, s) && returnSymbol(a21, s) && returnSymbol(a31, s) {
+        if checkSymbol(a11, s) && checkSymbol(a21, s) && checkSymbol(a31, s) {
             return true
-        } else if returnSymbol(a12, s) && returnSymbol(a22, s) && returnSymbol(a32, s) {
+        } else if checkSymbol(a12, s) && checkSymbol(a22, s) && checkSymbol(a32, s) {
             return true
-        } else if returnSymbol(a13, s) && returnSymbol(a23, s) && returnSymbol(a33, s) {
+        } else if checkSymbol(a13, s) && checkSymbol(a23, s) && checkSymbol(a33, s) {
             return true
         }
         
         // "Диагональная" победа
-        if returnSymbol(a11, s) && returnSymbol(a22, s) && returnSymbol(a33, s) {
+        if checkSymbol(a11, s) && checkSymbol(a22, s) && checkSymbol(a33, s) {
             return true
-        } else if returnSymbol(a13, s) && returnSymbol(a22, s) && returnSymbol(a31, s) {
+        } else if checkSymbol(a13, s) && checkSymbol(a22, s) && checkSymbol(a31, s) {
             return true
         }
         
@@ -98,15 +107,34 @@ class ViewController: UIViewController {
     }
     
     // Функция проверки символов для уменьшения когда в if для функции выше
-    func returnSymbol(_ button: UIButton, _ symbol: String) -> Bool {
+    func checkSymbol(_ button: UIButton, _ symbol: String) -> Bool {
         return button.title(for: .normal) == symbol
     }
     
+    // Алёрт, показывающий промежуточный счёт
+    func getInterimResultsAlert() {
+        var message = ""
+        
+        if scoreCrosses > scoreNulls {
+            message = "Пока выигравыет команда 'Крестиков'!"
+        } else if scoreNulls > scoreCrosses {
+            message = "Пока выигравыет команда 'Ноликов'!"
+        } else {
+            message = "Пока ничья!"
+        }
+        message += "\nКрестики - \(scoreCrosses)\nНолики - \(scoreNulls)"
+        
+        let allertController = UIAlertController(title: "Счёт:", message: message, preferredStyle: .actionSheet)
+        allertController.addAction(UIAlertAction(title: "Закрыть", style: .default, handler: .none))
+        self.present(allertController, animated: true)
+    }
+
     // Алёрт при завершении игры
-    func resultAlert(title: String) {
-        let allertController = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
-        allertController.addAction(UIAlertAction(title: "Play again", style: .default, handler: { (_) in
-            self.resetButtons()
+    func presentResultAlert(title: String) {
+        let message = "\nСчёт:\n\nКрестики - \(scoreCrosses)\nНолики - \(scoreNulls)"
+        let allertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        allertController.addAction(UIAlertAction(title: "Играть еще раз", style: .default, handler: { [weak self] _ in
+            self?.resetButtons()
             }))
         self.present(allertController, animated: true)
     }
@@ -119,45 +147,43 @@ class ViewController: UIViewController {
             button.isEnabled = true
         }
         
-        if nextTurn == Turn.Cross {
-            nextTurn = Turn.Null
-            turnLabel.text = textNull
-        } else if nextTurn == Turn.Null {
-            nextTurn = Turn.Cross
-            turnLabel.text = textCross
-        }
-        
+        // По правилам, в новой игре всегда первым ходит игрок, играющий за "Крестики"
+        ticTacToe.nextTurn = TicTacToe.Turn.cross
+        turnLabel.text = TicTacToe.Constants.Text.cross
     }
     
     // Проверка что все окна заняты
-    func allButtonsAreUsed() -> Bool {
+    func areAllButtonsUsed() -> Bool {
         
-        for button in arrButtons {
-            if button.title(for: .normal) == nil {
-                return false
-            }
-        }
-        return true
+        return !arrButtons.contains { $0.title(for: .normal) == nil }
         
     }
     
     // Функция заполнения поля, с настройкой шрифта
     func fillTheCage(_ sender: UIButton) {
         if sender.title(for: .normal) == nil {
-            if nextTurn == Turn.Cross {
-                sender.setTitle(textCross, for: .normal)
-                sender.titleLabel?.font = UIFont(name: "Futura-Medium", size: 52)
-                nextTurn = Turn.Null
-                turnLabel.text = textNull
-            } else if nextTurn == Turn.Null {
-                sender.setTitle(textNull, for: .normal)
-                sender.titleLabel?.font = UIFont(name: "Futura-Medium", size: 52)
-                nextTurn = Turn.Cross
-                turnLabel.text = textCross
+            if ticTacToe.nextTurn == TicTacToe.Turn.cross {
+                sender.setTitle(TicTacToe.Constants.Text.cross, for: .normal)
+                sender.titleLabel?.font = Constants.Font.futuraMedium
+                ticTacToe.nextTurn = TicTacToe.Turn.null
+                turnLabel.text = TicTacToe.Constants.Text.null
+            } else if ticTacToe.nextTurn == TicTacToe.Turn.null {
+                sender.setTitle(TicTacToe.Constants.Text.null, for: .normal)
+                sender.titleLabel?.font = Constants.Font.futuraMedium
+                ticTacToe.nextTurn = TicTacToe.Turn.cross
+                turnLabel.text = TicTacToe.Constants.Text.cross
             }
         }
         sender.isEnabled = false
     }
     
+}
+
+extension ViewController {
+    enum Constants {
+        enum Font {
+            static let futuraMedium = UIFont(name: "Futura-Medium", size: 52)
+        }
+    }
 }
 
